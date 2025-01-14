@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Forgot Password";
+}
+
+<!-- Page Background Styling -->
+<style>
+    body {
+        margin: 0;
+        margin-top: 15px;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #d6bb29, #77aded);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<h2 style="text-align: center; color: #333;">Forgot Password</h2>
+
+<!-- Forgot Password Form -->
+<form method="post" action="@Url.Action("ResetPassword", "ForgotPassword")"
+      style="width: 50%; margin: auto; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+    <!-- Username Field -->
+    <div style="margin-bottom: 15px;">
+        <label for="username" style="display: block; font-weight: bold;">Username:</label>
+        <input type="text" id="username" name="username" required
+               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+    </div>
+
+
+    <!-- Phone Number Field -->
+    <div style="margin-bottom: 15px;">
+        <label for="phoneNumber" style="display: block; font-weight: bold;">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required
+               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+    </div>
+
+    <!-- New Password Field -->
+    <div style="margin-bottom: 15px;">
+        <label for="newPassword" style="display: block; font-weight: bold;">New Password:</label>
+        <div style="display: flex; align-items: center;">
+            <input type="password" id="newPassword" name="newPassword" required
+                   style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            <span id="toggleNewPassword" style="cursor: pointer; font-size: 20px; margin-left: 8px;">🙈</span>
+        </div>
+    </div>
+
+    <!-- Confirm New Password Field -->
+    <div style="margin-bottom: 20px;">
+        <label for="confirmPassword" style="display: block; font-weight: bold;">Confirm New Password:</label>
+        <div style="display: flex; align-items: center;">
+            <input type="password" id="confirmPassword" name="confirmPassword" required
+                   style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" />
+            <span id="toggleConfirmPassword" style="cursor: pointer; font-size: 20px; margin-left: 8px;">🙈</span>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div style="text-align: center;">
+        <button type="submit" style="background-color: #77aded; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Reset Password</button>
+    </div>
+</form>
+
+<!-- Error Message -->
+@if (ViewBag.ErrorMessage != null)
+{
+    <div style="color: red; text-align: center; margin-top: 20px;">
+        <p>@ViewBag.ErrorMessage</p>
+    </div>
+}
+
+<!-- Success Message -->
+@if (ViewBag.SuccessMessage != null)
+{
+    <div style="color: green; text-align: center; margin-top: 20px;">
+        <p>@ViewBag.SuccessMessage</p>
+    </div>
+}
+
+<!-- JavaScript for Password Visibility Toggle -->
+
+<script>// Function to toggle password visibility and change emoji on hover
+    function setupPasswordToggle(toggleId, passwordFieldId) {
+        const toggle = document.getElementById(toggleId);
+        const passwordField = document.getElementById(passwordFieldId);
+
+        // Show password and change emoji to "👁️" on mouseover
+        toggle.addEventListener("mouseover", function () {
+            passwordField.type = "text";
+            toggle.textContent = "👁️";
+        });
+
+        // Hide password and change emoji back to "🙈" on mouseout
+        toggle.addEventListener("mouseout", function () {
+            passwordField.type = "password";
+            toggle.textContent = "🙈";
+        });
+    }
+
+    // Setup for New Password field
+    setupPasswordToggle("toggleNewPassword", "newPassword");
+
+    // Setup for Confirm Password field
+    setupPasswordToggle("toggleConfirmPassword", "confirmPassword");</script>

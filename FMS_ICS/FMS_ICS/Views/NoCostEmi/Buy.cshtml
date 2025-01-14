@@ -1,0 +1,86 @@
+﻿@model FMS_ICS.Models.Product
+
+@{
+    ViewBag.Title = "Buy Product with No Cost EMI";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #d6bb29, #77aded);
+    }
+
+    h2, h4 {
+        color: #fff;
+    }
+
+    form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: #fff;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+</style>
+
+<h2>Buy @Model.ProductName</h2>
+
+@TempData["Success"]
+@TempData["Error"]
+
+<form method="post" action="@Url.Action("Buy", "NoCostEmi")">
+
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="productId" value="@Model.ProductID" />
+    <div class="form-group">
+        <label for="tenureMonths">Choose EMI Tenure (Months)</label>
+        <select id="tenureMonths" name="tenureMonths" class="form-control">
+            @foreach (var tenure in ViewBag.EMIPlans)
+            {
+                <option value="@tenure">@tenure Months</option>
+            }
+        </select>
+    </div>
+    <h4>User Card Details</h4>
+    @if (ViewBag.CardID != null)
+    {
+        <div>
+            <p><strong>Card ID:</strong> @ViewBag.CardID</p>
+            <p><strong>Card Type:</strong> @ViewBag.CardTypeID</p>
+            <p><strong>Card Number:</strong> @ViewBag.CardNumber</p>
+            <p><strong>Remaining Limit:</strong> @ViewBag.RemainingLimit</p>
+            <p><strong>Validity:</strong> @ViewBag.Validity</p>
+            <p><strong>Status:</strong> @ViewBag.Status</p>
+        </div> }
+    else
+    {
+        <p>No active card found.</p>}
+    <h4>Calculated No-Cost EMI</h4>
+    <div id="emiCalculation">
+        <p><strong>Product Price:</strong> ₹@Model.Price</p>
+        <p><strong>EMI Amount:</strong> ₹<span id="monthlyEmi">0.00</span> per month</p>
+    </div>
+    <button type="submit" class="btn btn-success">Proceed to Buy</button>
+    <a href="@Url.Action("Index", "NoCostEmi")" class="btn btn-primary">Go Back</a>
+</form>
+<script>
+   function calculateEMI() {
+       var price = @Model.Price;
+       var tenure = parseInt(document.getElementById("tenureMonths").value);
+       if (tenure && price) {
+           var emiAmount = (price / tenure).toFixed(2);
+           document.getElementById("monthlyEmi").innerText = emiAmount;
+       }
+   }
+   document.getElementById("tenureMonths").addEventListener("change", calculateEMI);
+   calculateEMI();
+</script>

@@ -1,0 +1,85 @@
+﻿
+
+@{ ViewBag.Title = "Dashboard"; }
+<h2>Welcome, @ViewBag.UserName!</h2>
+
+<style>
+    body {
+        text-align: center;
+        background: linear-gradient(135deg, #d6bb29, #77aded);
+        font-family: Arial, sans-serif;
+    }
+
+    table {
+        margin: auto;
+        border-collapse: collapse;
+        width: 80%;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+        
+</style>
+
+<div class="logout-container">
+
+</div>
+
+<h3>User Card Details</h3>
+<div>
+    <p><strong>Card Number:</strong> @ViewBag.CardNumber</p>
+    <p><strong>Validity:</strong> @ViewBag.Validity</p>
+    <p><strong>Remaining Balance:</strong> @ViewBag.RemainingLimit</p>
+    @*<p><strong>Card Status:</strong> @ViewBag.Status</p>*@
+</div>
+
+<h3>Products Purchased</h3>
+@{ var productsPurchased = ViewBag.ProductsPurchased as List<FMS_ICS.Models.Purchase>; }
+@if (productsPurchased != null && productsPurchased.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Purchase Date</th>
+                <th>Total Amount</th>
+                <th>Tenure (Months)</th>
+                <th>Monthly EMI</th>
+                <th>Remaining EMI</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var purchase in productsPurchased)
+            {
+                <tr>
+                    <td>@purchase.Product.ProductName</td>
+                    <td>@purchase.PurchaseDate</td>
+                    <td>@purchase.TotalAmount</td>
+                    <td>@purchase.TenureMonths</td>
+                    <td>@purchase.MonthlyEMI</td>
+                    <td>@purchase.RemainingEMI</td>
+                </tr>
+            }
+        </tbody>
+    </table> }
+else
+{
+    <p>No products purchased.</p>}
+
+<br />
+<a href="@Url.Action("Index","NoCostEmi")" class="btn btn-primary">View Product</a>
+<a href="@Url.Action("Index","ChangePassword")" class="btn btn-primary">Change Password</a>
+<a href="@Url.Action("Logout","Login")" class="btn btn-danger">Log Out</a>
+@*@using (Html.BeginForm("Logout", "Login", FormMethod.Post))
+{
+
+    <button type="submit" class="btn-logout">Logout</button>
+}*@

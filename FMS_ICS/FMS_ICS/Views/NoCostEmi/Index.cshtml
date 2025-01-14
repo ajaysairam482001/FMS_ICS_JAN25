@@ -1,0 +1,72 @@
+﻿@model IEnumerable<FMS_ICS.Models.Product>
+
+@{
+    ViewBag.Title = "No Cost EMI Products";
+}
+
+<style>
+    body {
+        text-align: center;
+        background: linear-gradient(135deg, #d6bb29, #77aded);
+        font-family: Arial, sans-serif;
+    }
+
+    table {
+        margin: auto;
+        border-collapse: collapse;
+        width: 80%;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<h2>Products Available for No Cost EMI</h2>
+
+@TempData["Success"]
+@TempData["Error"]
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Details</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.ProductDetails</td>
+                <td>@product.Price</td>
+                <td><img src="@Url.Content(@product.ImageURL)" alt="@product.ImageURL" style="height: 40px; width: 40px;" /></td>
+                <td>
+                    <a href="@Url.Action("Buy", "NoCostEmi", new { id = product.ProductID })" class="btn btn-primary">Buy</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Index", "UserCards")" class="btn btn-primary">Go Back</a>

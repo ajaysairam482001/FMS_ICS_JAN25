@@ -1,0 +1,197 @@
+﻿<html>
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userToggle = document.getElementById("userToggle");
+            const adminToggle = document.getElementById("adminToggle");
+            const userForm = document.getElementById("userForm");
+            const adminForm = document.getElementById("adminForm");
+
+            // Show User Login and hide Admin Login
+            userToggle.addEventListener("click", function () {
+                userForm.style.display = "block";
+                adminForm.style.display = "none";
+                userToggle.classList.add("btn-primary");
+                userToggle.classList.remove("btn-secondary");
+                adminToggle.classList.add("btn-secondary");
+                adminToggle.classList.remove("btn-primary");
+            });
+
+            // Show Admin Login and hide User Login
+            adminToggle.addEventListener("click", function () {
+                adminForm.style.display = "block";
+                userForm.style.display = "none";
+                adminToggle.classList.add("btn-primary");
+                adminToggle.classList.remove("btn-secondary");
+                userToggle.classList.add("btn-secondary");
+                userToggle.classList.remove("btn-primary");
+            });
+        });
+    </script>
+    <style>
+        /* Set gradient background color */
+        body {
+            background: linear-gradient(45deg, #d6bb29, #77aded);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px; /* Same minimum height for both forms */
+        }
+
+        .toggle-container {
+            text-align: center;
+        }
+
+            .toggle-container .btn {
+                margin: 0 5px;
+            }
+
+        .login-form {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .form-group {
+            text-align: left; /* Align labels to the left */
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Hover effect for Admin Login button */
+        #adminToggle:hover {
+            background-color: #77aded !important; /* Admin Login hover color */
+        }
+
+        /* Optional: Add some spacing around the login form */
+        .login-form {
+            margin-top: 30px;
+        }
+
+        /* Hide the admin form by default */
+        #adminForm {
+            display: none;
+        }
+
+        /* Style for buttons */
+        .btn-primary {
+            background-color: #d6bb29;
+            
+            border: none;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #77aded;
+            border: none;
+            color: white;
+        }
+
+        /* Add hover effect for User Login button */
+        #userToggle:hover {
+            background-color: #d6bb29 !important;
+        }
+
+        /* Set both forms to have the same minimum height */
+        #userForm, #adminForm {
+            min-height: 300px; /* Minimum height to make both forms the same size */
+        }
+    </style>
+</head>
+<body>
+    <h2>LOGIN</h2>
+
+    <div class="container mt-4">
+        <!-- Toggle Button -->
+        <div class="toggle-container mb-3">
+            <button type="button" id="userToggle" class="btn btn-primary" style="margin:5px">User Login</button>
+            <button type="button" id="adminToggle" class="btn btn-secondary">Admin Login</button>
+        </div>
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <!-- User Login Form -->
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+        {
+            @*@Html.AntiForgeryToken()*@
+            <div id="userForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" />
+                </div>
+
+                <a href="@Url.Action("Index", "ForgotPassword")" class="btn btn-link mt-2">Forgot Password</a>
+                <br />
+                <br />
+                <button type="submit" class="btn btn-primary mt-2">Login</button>
+                <a href="@Url.Action("Index", "Register")" class="btn btn-link mt-2">Don't have an account? Sign up here</a>
+            </div>
+        }
+
+        <!-- Admin Login Form -->
+        @using (Html.BeginForm("AdminLogin", "Login", FormMethod.Post))
+        {
+            @*@Html.AntiForgeryToken()*@
+            <div id="adminForm" class="login-form">
+                <div class="form-group">
+                    <label for="adminUsername">Admin Username:</label>
+                    <input type="text" class="form-control" id="adminUsername" name="adminUsername" placeholder="Enter admin username" />
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Admin Password:</label>
+                    <input type="password" class="form-control" id="adminPassword" name="adminPassword" placeholder="Enter admin password" />
+                </div>
+                <button type="submit" class="btn btn-secondary mt-2">Admin Login</button>
+            </div>
+        }
+    </div>
+</body>
+</html>

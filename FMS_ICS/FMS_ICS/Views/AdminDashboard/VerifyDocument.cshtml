@@ -1,0 +1,28 @@
+﻿@{
+    var pendingUser = ViewBag.User as FMS_ICS.Models.User;
+    var remark = ViewBag.Remarks as string; // Remarks is a string
+    var documentStatus = ViewBag.DocumentStatus as string; // Status is a string
+    var docLink = ViewBag.DocumentLink as string; // DocumentLink is a string
+}
+<style>
+    body {
+        background: linear-gradient(135deg,#d6bb29,#77aded);
+    }
+</style>    
+
+<h1>Username : @pendingUser.Username</h1>
+<h1>Full Name : @pendingUser.FullName</h1>
+<h1>Document Link : <a href="@docLink">Click here... </a></h1>
+@* Ajay Add Your Web API Get in here *@
+<h1>Remarks : @ViewBag.Remarks</h1>
+<h2>Verify doc for User: @pendingUser.Username</h2>
+
+
+@*<form method="post" action="/AdminDashboard/VerifyDocument/@pendingUser.UserID">*@
+<form method="post" action="@Url.Action("ConfirmVerification", "AdminDashboard",new { id = pendingUser.UserID })">
+    <p>Are you sure you want to verify the User for @pendingUser.Username</p>
+    <button type="submit" class="btn btn-success">Verify</button>
+</form>
+@*<button action="@Url.Action("Index", "AdminDashboard")" type="submit" class="btn btn-danger">Back</button>*@
+<a href="@Url.Action("Index", "AdminDashboard")" class="btn btn-danger">Back</a>
+    
